@@ -1,17 +1,20 @@
+import { nanoid } from '@reduxjs/toolkit';
 import { Formik, Field, Form } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/contactSlice';
+import { addContact } from 'redux/operations';
+
 import { getContacts } from 'redux/selectors';
 import * as Yup from 'yup';
 
 const contactSchema = Yup.object().shape({
   name: Yup.string()
+    .matches(/^[a-zA-Z\s]+$/, 'Only letters are allowed')
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
-  number: Yup.number()
-    .min(7, 'Must be more than 10 characters')
-    .required('This field is required!'),
+  phone: Yup.string()
+    .matches(/^\d{3}-\d{3}-\d{4}$/, 'Must be in format: 000-000-0000')
+    .required('This field is required, please fill it'),
 });
 
 export const ContactForm = () => {
@@ -32,7 +35,8 @@ export const ContactForm = () => {
     <Formik
       initialValues={{
         name: '',
-        number: '',
+        phone: '',
+        id: nanoid(),
       }}
       validationSchema={contactSchema}
       onSubmit={(values, actions) => {
@@ -47,8 +51,8 @@ export const ContactForm = () => {
         </label>
 
         <label>
-          Number
-          <Field name="number" type="tel" required />
+          Phone
+          <Field name="phone" type="tel" required />
         </label>
 
         <button type="submit">Add contact</button>
