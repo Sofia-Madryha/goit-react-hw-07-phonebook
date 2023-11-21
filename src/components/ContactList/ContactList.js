@@ -1,7 +1,7 @@
 import { ContactCard } from 'components/ContactCard/ContactCard';
 import { useSelector } from 'react-redux';
 
-import { getContacts, getFilter } from 'redux/selectors';
+import { getContacts } from 'redux/selectors';
 
 // const getVisibleContacts = (contacts, filterName) => {
 //   if (filterName === '') {
