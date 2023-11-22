@@ -21,13 +21,17 @@ export const ContactForm = () => {
   const contacts = useSelector(getContacts);
   const dispatch = useDispatch();
 
+
+
   const handleSubmit = value => {
+    console.log(value);
     const nameExists = contacts.some(
       contact => contact.name.toLowerCase() === value.name.toLowerCase()
     );
     if (nameExists) {
       alert(`${value.name}' is already in contacts.`);
     } else {
+      console.log(addContact(value));
       dispatch(addContact(value));
     }
   };
@@ -40,6 +44,7 @@ export const ContactForm = () => {
       }}
       validationSchema={contactSchema}
       onSubmit={(values, actions) => {
+        console.log(values);
         handleSubmit(values);
         actions.resetForm();
       }}
